@@ -16,7 +16,7 @@ module.exports = function ESClient(config) {
     this.error = log.error;
     this.warning = log.warn;
 
-    // this can not be an arrow function because we require access to arguments.
+    // this can not be an arrow function because we require access the arguments.
     this.trace = function () {
       const data = _.zipObject(['httpMethod', 'requestUrl', 'requestBody', 'responseBody', 'statusCode'], arguments);
       data.requestUrl = _.omit(data.requestUrl, 'agent');
