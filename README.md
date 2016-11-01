@@ -21,7 +21,7 @@ This instantiates an elasticsearch client with a KeepAlive agent.
 The only default configuration option this module sets is the [`createNodeAgent`](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/configuration.html#config-create-node-agent) to connect with a KeepAlive agent. Also it has extra logging abstractions (below). For further instructions on configuring the client see the official [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/configuration.html).
 
 #### `log`
-This module supports passing an [enrise-logger](https://github.com/Enrise/node-logger) instance to the client. To use this, instantiate the logger beforehand, and then pass an instance to the esclient upon instantiation:  
+This module supports passing an [enrise-logger](https://github.com/Enrise/node-logger) instance to the client. To use this, initialize the logger beforehand, and then pass an instance to the esclient upon instantiation:  
 ```javascript
 const enriseClient = require('enrise-client');
 
