@@ -6,8 +6,7 @@ const AgentKeepAlive = require('agentkeepalive');
 
 module.exports = function ESClient(config) {
 
-  // Require logger inside constructor. This way enrise-esclient can be included before logger initialization.
-  const log = require('enrise-logger').get('Elasticsearch');
+  const log = config && config.log;
 
   function LogConstructor() {
     // info tends to log 'Request complete' messages which we usually don't care about
@@ -16,7 +15,7 @@ module.exports = function ESClient(config) {
     this.error = log.error;
     this.warning = log.warn;
 
-    // this can not be an arrow function because we require access the arguments.
+    // this can not be an arrow function because we require access to the arguments.
     this.trace = function () {
       const data = _.zipObject(['httpMethod', 'requestUrl', 'requestBody', 'responseBody', 'statusCode'], arguments);
       data.requestUrl = _.omit(data.requestUrl, 'agent');
@@ -29,7 +28,7 @@ module.exports = function ESClient(config) {
     createNodeAgent: function (connection, conf) {
       return new AgentKeepAlive(connection.makeAgentConfig(conf));
     },
-    log: LogConstructor
+    log: log && LogConstructor
   }, config || {});
 
   return new elasticsearch.Client(config);

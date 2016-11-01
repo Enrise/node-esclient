@@ -24,8 +24,7 @@
   "dependencies": {
     "agentkeepalive": "^2.2.0",
     "elasticsearch": "^12.0.1",
-    "lodash": "^4.16.4",
-    "enrise-logger": "^0.1.0"
+    "lodash": "^4.16.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",

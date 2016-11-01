@@ -12,40 +12,29 @@ describe('ESClient', () => {
   let EnriseClient;
   let ElasticsearchClient;
   let logger;
-  let logVerbose;
   let agentkeepalive;
 
   beforeEach(() => {
     ElasticsearchClient = sinon.stub().returns({
       foo: 'bar'
     });
-    logVerbose = sinon.stub();
-    logger = sinon.stub().returns({
+    logger = {
       debug: 'DEBUG',
       error: 'ERROR',
       warn: 'WARN',
-      verbose: logVerbose
-    });
+      verbose: sinon.stub()
+    };
     agentkeepalive = sinon.stub();
 
     EnriseClient = proxyquire('../index.js', {
       elasticsearch: {
         Client: ElasticsearchClient
       },
-      agentkeepalive: agentkeepalive,
-      'enrise-logger': {
-        get: logger
-      }
+      agentkeepalive: agentkeepalive
     });
   });
 
-  it('correctly initializes the logger', () => {
-    new EnriseClient(); // eslint-disable-line no-new
-    expect(logger).to.have.been.calledOnce;
-    expect(logger).to.have.been.calledWith('Elasticsearch');
-  });
-
-  it('instantiates the elasticsearch client with default AgentKeepAlive and logger', () => {
+  it('instantiates the elasticsearch client with default AgentKeepAlive', () => {
     const ESClient = new EnriseClient({
       my: 'settings'
     });
@@ -55,7 +44,8 @@ describe('ESClient', () => {
     const settings = ElasticsearchClient.args[0][0];
 
     // Test the createNodeAgent and logger in a separate test
-    expect(_.omit(settings, 'createNodeAgent', 'log')).to.deep.equal({
+    expect(_.omit(settings, 'createNodeAgent')).to.deep.equal({
+      log: undefined,
       my: 'settings'
     });
   });
@@ -90,17 +80,30 @@ describe('ESClient', () => {
     expect(agentkeepalive).to.have.been.calledWith('call agentkeepalive');
   });
 
-  it('correctly creates the LogConstructor and formats trace information', () => {
-    new EnriseClient(); // eslint-disable-line no-new
+  it('correctly uses a logger, creates the LogConstructor and correctly formats trace information', () => {
+    new EnriseClient({ // eslint-disable-line no-new
+      log: logger
+    });
 
     // Retrieve the LogConstructor the settings object passed to ElasticsearchClient
     const LogConstructor = ElasticsearchClient.args[0][0].log;
     chai.assert.isFunction(LogConstructor);
 
     const log = new LogConstructor(); // eslint-disable-line no-new
+
+    chai.assert.isFunction(log.trace);
+    chai.assert.isFunction(log.close);
+
     log.trace('POST', {url: 'local:9200', agent: 'elasticsearch'}, {request: 'body'}, {response: 'body'}, 200);
 
-    expect(logVerbose).to.have.been.calledWith({
+    expect(_.omit(log, 'trace', 'close')).to.deep.equal({
+      info: 'DEBUG',
+      debug: 'DEBUG',
+      error: 'ERROR',
+      warning: 'WARN'
+    });
+
+    expect(logger.verbose).to.have.been.calledWith({
       httpMethod: 'POST',
       requestUrl: {
         url: 'local:9200'
