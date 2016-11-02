@@ -7,6 +7,7 @@ const AgentKeepAlive = require('agentkeepalive');
 module.exports = function ESClient(config) {
 
   const log = config && config.log;
+  delete config.log;
 
   function LogConstructor() {
     // info tends to log 'Request complete' messages which we usually don't care about
