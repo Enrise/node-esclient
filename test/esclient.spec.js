@@ -57,11 +57,13 @@ describe('ESClient', () => {
       other: 'custom settings'
     };
     new EnriseClient(config); // eslint-disable-line no-new
-    expect(ElasticsearchClient).to.have.been.calledWith({
+    const args = ElasticsearchClient.args[0][0];
+
+    expect(_.omit(args, 'log')).to.deep.equal({
       createNodeAgent: config.createNodeAgent,
-      log: config.log,
       other: 'custom settings'
     });
+    chai.assert.isFunction(args.log);
   });
 
   it('correctly calls the AgentKeepAlive', () => {
@@ -115,6 +117,19 @@ describe('ESClient', () => {
         response: 'body'
       },
       statusCode: 200
+    });
+  });
+
+  it('does not modify the passed config object', () => {
+    const config = {
+      foo: 'bar',
+      log: {}
+    };
+
+    new EnriseClient(config); // eslint-disable-line no-new
+    expect(config).to.deep.equal({
+      foo: 'bar',
+      log: {}
     });
   });
 });
