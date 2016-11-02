@@ -6,7 +6,10 @@ const AgentKeepAlive = require('agentkeepalive');
 
 module.exports = function ESClient(config) {
 
-  const log = config && config.log;
+  // Shallow clone since we're modifying config
+  config = _.clone(config || {});
+
+  const log = config.log;
   delete config.log;
 
   function LogConstructor() {
@@ -30,7 +33,7 @@ module.exports = function ESClient(config) {
       return new AgentKeepAlive(connection.makeAgentConfig(conf));
     },
     log: log && LogConstructor
-  }, config || {});
+  }, config);
 
   return new elasticsearch.Client(config);
 };
