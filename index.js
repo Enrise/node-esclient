@@ -28,6 +28,11 @@ module.exports = function ESClient(config) {
     this.close = () => {};
   }
 
+  // Usage of AgentKeepalive via https://github.com/elastic/elasticsearch-js/issues/196
+  // The default (node) http-agent is known to have connection-problems as described in the issue. These
+  // problems can be either running out of connections or as we witnessed leaving http-connections dangling
+  // after usage. Both are tied to connection-pooling, and not reusing sockets. As AgentKeepAlive helped
+  // us fix the out-of-connections problems, it also seemed to help with dangling connections.
   config = _.merge({
     createNodeAgent: function (connection, conf) {
       return new AgentKeepAlive(connection.makeAgentConfig(conf));
