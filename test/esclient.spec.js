@@ -30,7 +30,7 @@ describe('ESClient', () => {
       elasticsearch: {
         Client: ElasticsearchClient
       },
-      agentkeepalive: agentkeepalive
+      agentkeepalive
     });
   });
 

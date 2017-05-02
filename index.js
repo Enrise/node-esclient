@@ -34,7 +34,7 @@ module.exports = function ESClient(config) {
   // after usage. Both are tied to connection-pooling, and not reusing sockets. As AgentKeepAlive helped
   // us fix the out-of-connections problems, it also seemed to help with dangling connections.
   config = _.merge({
-    createNodeAgent: function (connection, conf) {
+    createNodeAgent(connection, conf) {
       return new AgentKeepAlive(connection.makeAgentConfig(conf));
     },
     log: log && LogConstructor
