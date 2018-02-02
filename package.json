@@ -22,8 +22,8 @@
     "url": "https://github.com/Enrise/node-esclient/issues"
   },
   "dependencies": {
-    "agentkeepalive": "^2.2.0",
-    "elasticsearch": "^13.0.0",
+    "agentkeepalive": "^3.3.0",
+    "elasticsearch": "^14.1.0",
     "lodash": "^4.16.4"
   },
   "devDependencies": {
