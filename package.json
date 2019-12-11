@@ -28,11 +28,11 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "coveralls": "^2.11.14",
+    "coveralls": "^3.0.9",
     "eslint": "^3.8.1",
     "eslint-config-mm": "^1.1.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.2",
+    "mocha": "^6.2.2",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0"
