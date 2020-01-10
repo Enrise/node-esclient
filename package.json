@@ -11,7 +11,7 @@
   "scripts": {
     "lint": "eslint index.js test",
     "unittest": "mocha test/*.spec.js",
-    "cover": "istanbul cover _mocha -- -R spec test/*.spec.js; istanbul check-coverage",
+    "cover": "nyc mocha test/*.spec.js; nyc check-coverage --lines 100 --statements 100 --branches 100 --functions 80",
     "test": "npm run lint && npm run cover"
   },
   "repository": {
@@ -28,11 +28,10 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "coveralls": "^2.11.14",
     "eslint": "^3.8.1",
     "eslint-config-mm": "^1.1.1",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.1.2",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0"
