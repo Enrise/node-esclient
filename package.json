@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "agentkeepalive": "^3.3.0",
-    "elasticsearch": "^14.1.0",
+    "elasticsearch": "^15.5.0",
     "lodash": "^4.16.4"
   },
   "devDependencies": {
