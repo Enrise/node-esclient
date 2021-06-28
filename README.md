@@ -7,6 +7,10 @@
 
 > A simple wrapper around the [elasticsearch](https://github.com/elastic/elasticsearch-js) client, optionally with [enrise-logger](https://github.com/Enrise/node-logger) integration.
 
+## Deprecated
+
+This repository is deprecated and will be archived.
+
 ### Installation
 NPM: `npm install enrise-esclient --save`  
 Yarn: `yarn add enrise-esclient`
